@@ -1,3 +1,7 @@
 <resources>
+    <string name="error_no_internet">No internet connection</string>
+    <string name="error_no_auth">Authentication failed</string>
+    <string name="error_other">Unknown error</string>
+    <string name="error_unknown">An error occurred</string>
     <string name="app_name">Pexels_App</string>
 </resources>
