@@ -1,12 +1,31 @@
 package com.example.data.mapper
 
 import com.example.data.local.entity.PhotoEntity
+import com.example.data.model.PhotoDataModel
 import com.example.domain.model.PhotoDomainModel
 import com.google.gson.Gson
 import com.google.gson.reflect.TypeToken
 
 object PhotoDataMapper {
-    fun toDomain(entity: PhotoEntity): PhotoDomainModel {
+    fun toDomainModelFromData(data: PhotoDataModel): PhotoDomainModel = PhotoDomainModel(
+        id = data.id,
+        width = data.width,
+        height = data.height,
+        url = data.url,
+        photographer = data.photographer,
+        photographerUrl = data.photographerUrl,
+        photographerId = data.photographerId,
+        avgColor = data.avgColor,
+        src = data.src,
+        liked = data.liked,
+        alt = data.alt,
+        isBookmarked = false
+    )
+
+    fun toDomainListFromData(dataList: List<PhotoDataModel>): List<PhotoDomainModel> =
+        dataList.map { toDomainModelFromData(it) }
+
+    fun toDomainModelFromEntity(entity: PhotoEntity): PhotoDomainModel {
         val srcType = object : TypeToken<Map<String, String>>() {}.type
         val src: Map<String, String> = Gson().fromJson(entity.srcJson, srcType)
         return PhotoDomainModel(
@@ -20,11 +39,12 @@ object PhotoDataMapper {
             avgColor = entity.avgColor,
             src = src,
             liked = entity.liked,
-            alt = entity.alt
+            alt = entity.alt,
+            isBookmarked = entity.isBookmarked
         )
     }
 
-    fun toEntity(domain: PhotoDomainModel, timestamp: Long, type: String): PhotoEntity {
+    fun toEntityFromDomain(domain: PhotoDomainModel, timestamp: Long, type: String): PhotoEntity {
         val srcJson = Gson().toJson(domain.src)
         return PhotoEntity(
             id = domain.id,
@@ -39,11 +59,13 @@ object PhotoDataMapper {
             liked = domain.liked,
             alt = domain.alt,
             timestamp = timestamp,
-            type = type
+            type = type,
+            isBookmarked = domain.isBookmarked
         )
     }
 
-    fun toDomainList(entities: List<PhotoEntity>): List<PhotoDomainModel> = entities.map { toDomain(it) }
-    fun toEntityList(domains: List<PhotoDomainModel>, timestamp: Long, type: String): List<PhotoEntity> =
-        domains.map { toEntity(it, timestamp, type) }
+
+    fun toDomainListFromEntity(entities: List<PhotoEntity>): List<PhotoDomainModel> = entities.map { toDomainModelFromEntity(it) }
+    fun toEntityListFromDomain(domains: List<PhotoDomainModel>, timestamp: Long, type: String): List<PhotoEntity> =
+        domains.map { toEntityFromDomain(it, timestamp, type) }
 }

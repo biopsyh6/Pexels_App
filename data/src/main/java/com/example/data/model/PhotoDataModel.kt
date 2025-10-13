@@ -1,6 +1,6 @@
-package com.example.domain.model
+package com.example.data.model
 
-data class PhotoDomainModel(
+data class PhotoDataModel(
     val id: Int,
     val width: Int,
     val height: Int,
@@ -11,6 +11,5 @@ data class PhotoDomainModel(
     val avgColor: String?,
     val src: Map<String, String>,
     val liked: Boolean,
-    val alt: String,
-    val isBookmarked: Boolean = false
+    val alt: String
 )

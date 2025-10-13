@@ -17,5 +17,6 @@ data class PhotoEntity(
     val liked: Boolean,
     val alt: String,
     val timestamp: Long, // for cache expiration
-    val type: String // for search query
+    val type: String, // for search query
+    val isBookmarked: Boolean = false
 )

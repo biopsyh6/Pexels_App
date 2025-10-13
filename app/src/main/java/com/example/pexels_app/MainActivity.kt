@@ -11,6 +11,11 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
+import androidx.navigation.NavType
+import androidx.navigation.compose.NavHost
+import androidx.navigation.compose.composable
+import androidx.navigation.compose.rememberNavController
+import androidx.navigation.navArgument
 import com.example.pexels_app.ui.theme.Pexels_AppTheme
 
 class MainActivity : ComponentActivity() {
@@ -29,6 +34,33 @@ class MainActivity : ComponentActivity() {
         }
     }
 }
+
+
+//@Composable
+//fun Main() {
+//    val navController = rememberNavController()
+//    NavHost(navController = navController, startDestination = "task_list") {
+//        composable("task_list") { TaskListScreen(navController) }
+//        composable("login") { LoginScreen(navController) }
+//        composable("success") { SuccessScreen() }
+//        composable("posts") { PostsScreen(navController) }
+//        composable("postsComments") { PostsCommentsScreen(navController) }
+//        composable(
+//            route = "comments/{postId}?post={post}",
+//            arguments = listOf(
+//                navArgument("postId") { type = NavType.IntType },
+//                navArgument("post") { type = NavType.StringType; nullable = true }
+//            )
+//        ) { backStackEntry ->
+//            CommentsScreen(
+//                navController = navController,
+//                postId = backStackEntry.arguments?.getInt("postId") ?: -1
+//            )
+//        }
+//    }
+//}
+
+
 
 @Composable
 fun Greeting(name: String, modifier: Modifier = Modifier) {

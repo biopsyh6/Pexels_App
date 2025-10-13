@@ -1,5 +1,7 @@
 package com.example.data.remote
 
+import com.example.data.model.CollectionDataModel
+import com.example.data.model.PhotoDataModel
 import com.example.domain.model.CollectionDomainModel
 import com.example.domain.model.PhotoDomainModel
 import retrofit2.http.GET
@@ -11,23 +13,23 @@ interface PexelsApi {
     suspend fun getCuratedPhotos(
         @Query("page") page: Int,
         @Query("per_page") perPage: Int = 30
-    ): PexelsResponse<PhotoDomainModel>
+    ): PexelsResponse<PhotoDataModel>
 
     @GET("v1/search")
     suspend fun searchPhotos(
         @Query("query") query: String,
         @Query("page") page: Int,
         @Query("per_page") perPage: Int = 30
-    ): PexelsResponse<PhotoDomainModel>
+    ): PexelsResponse<PhotoDataModel>
 
     @GET("v1/collections/featured")
     suspend fun getFeaturedCollections(
         @Query("page") page: Int = 1,
         @Query("per_page") perPage: Int = 7
-    ): PexelsResponse<CollectionDomainModel>
+    ): PexelsResponse<CollectionDataModel>
 
     @GET("v1/photos/{id}")
-    suspend fun getPhotoDetails(@Path("id") id: Int): PhotoDomainModel
+    suspend fun getPhotoDetails(@Path("id") id: Int): PhotoDataModel
 
 
     data class PexelsResponse<T>(

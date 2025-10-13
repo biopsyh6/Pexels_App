@@ -1,10 +1,24 @@
 package com.example.data.mapper
 
 import com.example.data.local.entity.CollectionEntity
+import com.example.data.model.CollectionDataModel
 import com.example.domain.model.CollectionDomainModel
 
 object CollectionDataMapper {
-    fun toDomain(entity: CollectionEntity): CollectionDomainModel =
+    fun toDomainModelFromData(data: CollectionDataModel): CollectionDomainModel = CollectionDomainModel(
+        id = data.id,
+        title = data.title,
+        description = data.description,
+        private = data.private,
+        mediaCount = data.mediaCount,
+        photosCount = data.photosCount,
+        videosCount = data.videosCount
+    )
+
+    fun toDomainListFromData(dataList: List<CollectionDataModel>): List<CollectionDomainModel> =
+        dataList.map { toDomainModelFromData(it) }
+
+    fun toDomainFromEntity(entity: CollectionEntity): CollectionDomainModel =
         CollectionDomainModel(
             id = entity.id,
             title = entity.title,
@@ -15,7 +29,10 @@ object CollectionDataMapper {
             videosCount = entity.videosCount
         )
 
-    fun toEntity(domain: CollectionDomainModel, timestamp: Long): CollectionEntity =
+    fun toDomainListFromEntity(entities: List<CollectionEntity>): List<CollectionDomainModel> =
+        entities.map { toDomainFromEntity(it) }
+
+    fun toEntityFromDomain(domain: CollectionDomainModel, timestamp: Long): CollectionEntity =
         CollectionEntity(
             id = domain.id,
             title = domain.title,
@@ -27,7 +44,7 @@ object CollectionDataMapper {
             timestamp = timestamp
         )
 
-    fun toDomainList(entities: List<CollectionEntity>): List<CollectionDomainModel> = entities.map { toDomain(it) }
-    fun toEntityList(domains: List<CollectionDomainModel>, timestamp: Long): List<CollectionEntity> =
-        domains.map { toEntity(it, timestamp) }
+    fun toEntityListFromDomain(domains: List<CollectionDomainModel>, timestamp: Long): List<CollectionEntity> =
+        domains.map { toEntityFromDomain(it, timestamp) }
+
 }

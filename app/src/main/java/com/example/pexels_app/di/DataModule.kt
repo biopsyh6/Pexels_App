@@ -7,6 +7,7 @@ import com.example.data.repository.CollectionsRepositoryImpl
 import com.example.data.repository.PhotosRepositoryImpl
 import com.example.domain.repository.ICollectionsRepository
 import com.example.domain.repository.IPhotosRepository
+import kotlinx.coroutines.Dispatchers
 import okhttp3.Interceptor
 import okhttp3.OkHttpClient
 import org.koin.android.ext.koin.androidContext
@@ -38,4 +39,6 @@ val dataModule = module {
 
     single<ICollectionsRepository> { CollectionsRepositoryImpl(get(), get(), get()) }
     single<IPhotosRepository> { PhotosRepositoryImpl(get(), get(), get()) }
+
+    single { Dispatchers.IO }
 }

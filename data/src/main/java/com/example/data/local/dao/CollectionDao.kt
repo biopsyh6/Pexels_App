@@ -12,7 +12,7 @@ interface CollectionDao {
     suspend fun insertCollections(collections: List<CollectionEntity>)
 
     @Query("SELECT * FROM collections WHERE timestamp > :expiration")
-    fun getCachedCollections(expiration: Long): List<CollectionEntity>
+    suspend fun getCachedCollections(expiration: Long): List<CollectionEntity>
 
     @Query("DELETE FROM collections WHERE timestamp <= :expiration")
     suspend fun clearExpiredCollections(expiration: Long)

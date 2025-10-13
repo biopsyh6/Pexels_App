@@ -23,12 +23,12 @@ class CollectionsRepositoryImpl(
         withContext(ioDispatcher) {
             val expiration = System.currentTimeMillis() - cacheDuration
             collectionDao.clearExpiredCollections(expiration)
-            val local = CollectionDataMapper.toDomainList(collectionDao.getCachedCollections(expiration))
+            val local = CollectionDataMapper.toDomainListFromEntity(collectionDao.getCachedCollections(expiration))
             if (local.isNotEmpty()) return@withContext TResult.Success(local)
             runCatching {
                 val response = api.getFeaturedCollections(perPage = 7)
-                val items = response.collections ?: emptyList()
-                val entities = CollectionDataMapper.toEntityList(items, System.currentTimeMillis())
+                val items = response.collections?.let { CollectionDataMapper.toDomainListFromData(it) } ?: emptyList()
+                val entities = CollectionDataMapper.toEntityListFromDomain(items, System.currentTimeMillis())
                 collectionDao.insertCollections(entities)
                 TResult.Success<List<CollectionDomainModel>, PexelsExceptionDomainModel>(items)
             }.getOrElse {
