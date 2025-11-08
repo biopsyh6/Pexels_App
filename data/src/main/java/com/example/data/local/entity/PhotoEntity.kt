@@ -5,18 +5,18 @@ import androidx.room.PrimaryKey
 
 @Entity(tableName = "photos")
 data class PhotoEntity(
-    @PrimaryKey val id: Int,
-    val width: Int,
-    val height: Int,
-    val url: String,
-    val photographer: String,
-    val photographerUrl: String,
-    val photographerId: Int,
-    val avgColor: String?,
-    val srcJson: String, // map to json
-    val liked: Boolean,
-    val alt: String,
-    val timestamp: Long, // for cache expiration
-    val type: String, // for search query
-    val isBookmarked: Boolean = false
+    @PrimaryKey var id: Int = 0,
+    var width: Int = 0,
+    var height: Int = 0,
+    var url: String = "",
+    var photographer: String = "",
+    var photographerUrl: String? = null,
+    var photographerId: Int = 0,
+    var avgColor: String? = "",
+    var srcJson: String = "", // map to json
+    var liked: Boolean = false,
+    var alt: String = "",
+    var timestamp: Long = 0, // for cache expiration
+    var type: String = "", // for search query
+    var isBookmarked: Boolean = false
 )

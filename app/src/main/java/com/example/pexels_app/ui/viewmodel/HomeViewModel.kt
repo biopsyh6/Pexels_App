@@ -3,6 +3,7 @@ package com.example.pexels_app.ui.viewmodel
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.domain.TResult
+import com.example.domain.model.CollectionDomainModel
 import com.example.domain.model.exception.PexelsExceptionDomainModel
 import com.example.domain.usecase.GetFeaturedCollectionsUseCase
 import com.example.domain.usecase.GetPhotoDetailsUseCase
@@ -31,8 +32,9 @@ class HomeViewModel(
     private val _event = SingleFlowEvent<HomeEvent>(viewModelScope)
     val event = _event.flow
 
-    private var currentPage = 1
+    var currentPage = 1
     private var currentQuery: String? = null
+    private var initialCollections: List<CollectionDomainModel> = emptyList()
 
     init {
         fetchInitialData()
@@ -60,13 +62,19 @@ class HomeViewModel(
                     _state.update { HomeState.Error(exception?.parseToString()) }
                     _event.emit(HomeEvent.ShowToast(exception?.parseToString() ?: "Unknown error"))
                 }
+
                 collectionsResult is TResult.Success && photosResult is TResult.Success -> {
-                    val collections = collectionsResult.data
+                    initialCollections = collectionsResult.data
                     val photos = photosResult.data
-                    if (collections.isEmpty() && photos.isEmpty()) {
+                    if (collectionsResult.data.isEmpty() && photos.isEmpty()) {
                         _state.update { HomeState.Empty }
                     } else {
-                        _state.update { HomeState.Success(collections, photos) }
+                        _state.update {
+                            HomeState.Success(
+                                collections = initialCollections,
+                                photos = photos
+                            )
+                        }
                     }
                 }
             }
@@ -77,12 +85,24 @@ class HomeViewModel(
         currentQuery = query
         currentPage = 1
         viewModelScope.launch(ioDispatcher) {
-            _state.update { HomeState.Loading }
+            if (initialCollections.isEmpty()) {
+                _state.update { HomeState.Loading }
+            }
             val result = getPhotosUseCase(page = currentPage, query = query)
             when (result) {
                 is TResult.Success -> {
-                    _state.update { HomeState.Success(collections = emptyList(), photos = result.data) }
+                    if (result.data.isEmpty()) {
+                        _state.update { HomeState.Empty }
+                    } else {
+                        _state.update {
+                            HomeState.Success(
+                                collections = initialCollections,
+                                photos = result.data
+                            )
+                        }
+                    }
                 }
+
                 is TResult.Error -> {
                     _state.update { HomeState.NetworkStub(query) }
                     _event.emit(HomeEvent.ShowToast(result.exception.parseToString()))
@@ -109,8 +129,15 @@ class HomeViewModel(
             when (result) {
                 is TResult.Success -> {
                     val newPhotos = result.data
-                    _state.update { currentState.copy(collections = currentState.collections, photos = currentState.photos + newPhotos, isLoadingMore = false) }
+                    _state.update {
+                        currentState.copy(
+                            collections = initialCollections,
+                            photos = currentState.photos + newPhotos,
+                            isLoadingMore = false
+                        )
+                    }
                 }
+
                 is TResult.Error -> {
                     _state.update { currentState.copy(isLoadingMore = false) }
                     _event.emit(HomeEvent.ShowToast(result.exception.parseToString()))

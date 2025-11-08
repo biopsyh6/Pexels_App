@@ -42,12 +42,17 @@ android {
 
 dependencies {
 
+
+    implementation(libs.coil)
+    implementation(libs.coil.compose)
+
     implementation(libs.gson)
     implementation(libs.retrofit)
     implementation(libs.converter.gson)
 
     implementation(libs.androidx.room.runtime)
     implementation(libs.androidx.core.ktx.v170)
+    implementation(libs.ads.mobile.sdk)
     kapt(libs.androidx.room.compiler)
     implementation(libs.androidx.lifecycle.livedata.ktx)
     implementation(libs.androidx.lifecycle.viewmodel.ktx)

@@ -1,16 +1,17 @@
 package com.example.data.local.entity
 
+import android.os.Parcelable
 import androidx.room.Entity
 import androidx.room.PrimaryKey
 
 @Entity(tableName = "collections")
 data class CollectionEntity(
-    @PrimaryKey val id: String,
-    val title: String,
-    val description: String,
-    val private: Boolean,
-    val mediaCount: Int,
-    val photosCount: Int,
-    val videosCount: Int,
-    val timestamp: Long
+    @PrimaryKey var id: String = "",
+    var title: String = "",
+    var description: String = "",
+    var private: Boolean = false,
+    var mediaCount: Int = 0,
+    var photosCount: Int = 0,
+    var videosCount: Int = 0,
+    var timestamp: Long = 0
 )

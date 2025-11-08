@@ -27,7 +27,7 @@ object PhotoDataMapper {
 
     fun toDomainModelFromEntity(entity: PhotoEntity): PhotoDomainModel {
         val srcType = object : TypeToken<Map<String, String>>() {}.type
-        val src: Map<String, String> = Gson().fromJson(entity.srcJson, srcType)
+        val src: Map<String, String> = Gson().fromJson(entity.srcJson, srcType) ?: emptyMap()
         return PhotoDomainModel(
             id = entity.id,
             width = entity.width,

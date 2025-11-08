@@ -6,7 +6,7 @@ data class PhotoDomainModel(
     val height: Int,
     val url: String,
     val photographer: String,
-    val photographerUrl: String,
+    val photographerUrl: String? = null,
     val photographerId: Int,
     val avgColor: String?,
     val src: Map<String, String>,

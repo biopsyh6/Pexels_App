@@ -3,5 +3,18 @@
     <string name="error_no_auth">Authentication failed</string>
     <string name="error_other">Unknown error</string>
     <string name="error_unknown">An error occurred</string>
-    <string name="app_name">Pexels_App</string>
+
+    <string name="app_name">Pexels App</string>
+    <string name="featured_collections">Featured Collections</string>
+    <string name="popular_photos">Popular Photos</string>
+    <string name="no_data">No results found</string>
+    <string name="explore">Explore</string>
+    <string name="network_error">Network error occurred</string>
+    <string name="last_query">Last query: %s</string>
+    <string name="try_again">Try Again</string>
+
+    <string name="download">Download</string>
+    <string name="add_bookmark">Add to Bookmark</string>
+    <string name="remove_bookmark">Remove Bookmark</string>
+    <string name="image_not_found">Image not found</string>
 </resources>

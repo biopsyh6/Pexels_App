@@ -62,8 +62,12 @@ class PhotosRepositoryImpl(
         withContext(ioDispatcher) {
             runCatching {
                 val entity = photoDao.getPhotoById(id)
+                    ?: return@runCatching TResult.Error(PexelsExceptionDomainModel.Other(RuntimeException("Photo not found in bookmarks")))
+                if (!entity.isBookmarked) {
+                    return@runCatching TResult.Error(PexelsExceptionDomainModel.Other(RuntimeException("Photo is not bookmarked")))
+                }
                 TResult.Success<PhotoDomainModel, PexelsExceptionDomainModel>(
-                    PhotoDataMapper.toDomainModelFromEntity(entity!!)
+                    PhotoDataMapper.toDomainModelFromEntity(entity)
                 )
             }.getOrElse {
                 Log.e("PhotosRepository", "Error fetching bookmarked photo: ${it.stackTraceToString()}")

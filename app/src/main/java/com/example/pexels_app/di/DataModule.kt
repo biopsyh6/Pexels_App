@@ -21,7 +21,7 @@ val dataModule = module {
     single { get<AppDatabase>().collectionDao() }
 
     single { "5YejkjGIGmLaOJLiDTfEbnkIXvg1idlw6wRA2b3JLaUShjo98VeDcGSh" }
-    single<Interceptor> { AuthInterceptor(get()) }
+    single<AuthInterceptor> { AuthInterceptor(get()) }
     single {
         OkHttpClient.Builder()
             .addInterceptor(get<AuthInterceptor>())
@@ -37,8 +37,20 @@ val dataModule = module {
     }
     single<PexelsApi> { get<Retrofit>().create(PexelsApi::class.java) }
 
-    single<ICollectionsRepository> { CollectionsRepositoryImpl(get(), get(), get()) }
-    single<IPhotosRepository> { PhotosRepositoryImpl(get(), get(), get()) }
+    single<ICollectionsRepository> {
+        CollectionsRepositoryImpl(
+            api = get<PexelsApi>(),
+            collectionDao = get(),
+            ioDispatcher = get()
+        )
+    }
+    single<IPhotosRepository> {
+        PhotosRepositoryImpl(
+            api = get<PexelsApi>(),
+            photoDao = get(),
+            ioDispatcher = get()
+        )
+    }
 
-    single { Dispatchers.IO }
+//    single { Dispatchers.IO }
 }
