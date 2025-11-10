@@ -41,7 +41,7 @@ android {
 }
 
 dependencies {
-
+    implementation (libs.androidx.core.splashscreen)
 
     implementation(libs.coil)
     implementation(libs.coil.compose)

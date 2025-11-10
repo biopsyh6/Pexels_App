@@ -17,4 +17,8 @@
     <string name="add_bookmark">Add to Bookmark</string>
     <string name="remove_bookmark">Remove Bookmark</string>
     <string name="image_not_found">Image not found</string>
+
+    <string name="not_saved">You haven\'t saved anything yet</string>
+    <string name="retry">Retry</string>
+    <string name="bookmarks">Bookmarks</string>
 </resources>

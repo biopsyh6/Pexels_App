@@ -2,6 +2,7 @@ package com.example.pexels_app.di
 
 import android.app.DownloadManager
 import android.content.Context
+import com.example.pexels_app.ui.viewmodel.BookmarksViewModel
 import com.example.pexels_app.ui.viewmodel.DetailsViewModel
 import com.example.pexels_app.ui.viewmodel.HomeViewModel
 import kotlinx.coroutines.Dispatchers
@@ -28,6 +29,14 @@ val appModule = module {
             downloadManager = get(),
             ioDispatcher = get(),
             savedStateHandle = get()
+        )
+    }
+
+    viewModel<BookmarksViewModel> {
+        BookmarksViewModel(
+            getBookmarkedPhotosUseCase = get(),
+            getPhotoDetailsUseCase = get(),
+            ioDispatcher = get()
         )
     }
 

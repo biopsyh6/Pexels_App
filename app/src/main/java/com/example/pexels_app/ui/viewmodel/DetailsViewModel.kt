@@ -10,7 +10,9 @@ import com.example.domain.TResult
 import com.example.domain.usecase.GetBookmarkedPhotoUseCase
 import com.example.domain.usecase.GetPhotoDetailsUseCase
 import com.example.domain.usecase.ToggleBookmarkUseCase
+import com.example.pexels_app.di.AppEventBus
 import com.example.pexels_app.ui.SingleFlowEvent
+import com.example.pexels_app.ui.event.BookmarksEvent
 import com.example.pexels_app.ui.event.DetailsEvent
 import com.example.pexels_app.ui.intent.DetailsIntent
 import com.example.pexels_app.ui.state.DetailsState
@@ -115,6 +117,7 @@ class DetailsViewModel(
                 _event.emit(DetailsEvent.ShowToast(
                     if (updatedPhoto.isBookmarked) "Added to bookmarks" else "Removed from bookmarks"
                 ))
+                AppEventBus.emit(BookmarksEvent.BookmarkedChanged)
             }
         }
     }

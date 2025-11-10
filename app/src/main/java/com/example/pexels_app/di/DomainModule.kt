@@ -3,6 +3,7 @@ package com.example.pexels_app.di
 import com.example.domain.repository.ICollectionsRepository
 import com.example.domain.repository.IPhotosRepository
 import com.example.domain.usecase.GetBookmarkedPhotoUseCase
+import com.example.domain.usecase.GetBookmarkedPhotosUseCase
 import com.example.domain.usecase.GetFeaturedCollectionsUseCase
 import com.example.domain.usecase.GetPhotoDetailsUseCase
 import com.example.domain.usecase.GetPhotosUseCase
@@ -28,5 +29,9 @@ val domainModule = module {
 
     factory<ToggleBookmarkUseCase> {
         ToggleBookmarkUseCase(get<IPhotosRepository>())
+    }
+
+    factory<GetBookmarkedPhotosUseCase> {
+        GetBookmarkedPhotosUseCase(get<IPhotosRepository>())
     }
 }
